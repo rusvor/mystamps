@@ -41,3 +41,6 @@ notifications:
 
 # We don't want to run `mvn install -DskipTests=true` for downloading project's dependencies
 install: true
+
+# Use container-based infrastructure
+sudo: false
