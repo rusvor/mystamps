@@ -23,7 +23,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
@@ -40,23 +39,14 @@ public class ErrorController {
 	private final SiteService siteService;
 	
 	@RequestMapping(Url.NOT_FOUND_PAGE)
-	public void notFound(
-			HttpServletRequest request,
-			CustomUserDetails userDetails,
-			@RequestHeader(value = "referer", required = false) String referer,
-			@RequestHeader(value = "user-agent", required = false) String agent) {
-		
-		// TODO: sanitize all user's values (#60)
-		String page   = (String)request.getAttribute("javax.servlet.error.request_uri");
-		String ip     = request.getRemoteAddr();
-		String method = request.getMethod();
+	public void notFound(HttpServletRequest request, CustomUserDetails userDetails) {
 		
 		Integer userId = null;
 		if (userDetails != null) {
 			userId = userDetails.getUser().getId();
 		}
 		
-		siteService.logAboutAbsentPage(page, method, userId, ip, referer, agent);
+		siteService.logAboutAbsentPage(request, userId);
 	}
 	
 	@RequestMapping(Url.INTERNAL_ERROR_PAGE)

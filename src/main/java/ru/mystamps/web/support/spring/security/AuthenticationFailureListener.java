@@ -49,16 +49,9 @@ public class AuthenticationFailureListener
 			return;
 		}
 		
-		// TODO: log more info (login for example) (#59)
-		// TODO: sanitize all user's values (#60)
-		String method  = request.getMethod();
-		String page    = request.getRequestURI();
-		String ip      = request.getRemoteAddr();
-		String referer = request.getHeader("referer");
-		String agent   = request.getHeader("user-agent");
-		Date date      = new Date(event.getTimestamp());
+		Date date = new Date(event.getTimestamp());
 		
-		siteService.logAboutFailedAuthentication(page, method, null, ip, referer, agent, date);
+		siteService.logAboutFailedAuthentication(request, date);
 	}
 	
 	private static HttpServletRequest getRequest() {

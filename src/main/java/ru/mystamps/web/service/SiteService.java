@@ -22,25 +22,8 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 
 public interface SiteService {
-	@SuppressWarnings("PMD.UseObjectForClearerAPI")
-	void logAboutAbsentPage(
-		String page,
-		String method,
-		Integer userId,
-		String ip,
-		String referer,
-		String agent
-	);
-	@SuppressWarnings("PMD.UseObjectForClearerAPI")
-	void logAboutFailedAuthentication(
-		String page,
-		String method,
-		Integer userId,
-		String ip,
-		String referer,
-		String agent,
-		Date date
-	);
+	void logAboutAbsentPage(HttpServletRequest request, Integer userId);
+	void logAboutFailedAuthentication(HttpServletRequest request, Date date);
 	void logAboutMissingCsrfToken(HttpServletRequest request);
 	void logAboutInvalidCsrfToken(HttpServletRequest request);
 }

@@ -55,33 +55,34 @@ public class SiteServiceImpl implements SiteService {
 	private final SuspiciousActivityDao suspiciousActivities;
 	
 	@Override
-	@SuppressWarnings("PMD.UseObjectForClearerAPI")
 	@Async
 	@Transactional
-	public void logAboutAbsentPage(
-			String page,
-			String method,
-			Integer userId,
-			String ip,
-			String referer,
-			String agent) {
-		
-		logEvent(PAGE_NOT_FOUND, page, method, userId, ip, referer, agent, new Date());
+	public void logAboutAbsentPage(HttpServletRequest request, Integer userId) {
+		logEvent(
+			PAGE_NOT_FOUND,
+			(String)request.getAttribute("javax.servlet.error.request_uri"),
+			request.getMethod(),
+			userId,
+			request.getRemoteAddr(),
+			request.getHeader("referer"),
+			request.getHeader("user-agent"),
+			new Date()
+		);
 	}
 	
 	@Override
-	@SuppressWarnings("PMD.UseObjectForClearerAPI")
 	@Transactional
-	public void logAboutFailedAuthentication(
-			String page,
-			String method,
-			Integer userId,
-			String ip,
-			String referer,
-			String agent,
-			Date date) {
-		
-		logEvent(AUTHENTICATION_FAILED, page, method, userId, ip, referer, agent, date);
+	public void logAboutFailedAuthentication(HttpServletRequest request, Date date) {
+		logEvent(
+			AUTHENTICATION_FAILED,
+			request.getRequestURI(),
+			request.getMethod(),
+			null,
+			request.getRemoteAddr(),
+			request.getHeader("referer"),
+			request.getHeader("user-agent"),
+			date
+		);
 	}
 	
 	/**
