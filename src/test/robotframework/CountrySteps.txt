@@ -1,0 +1,9 @@
+*** Keywords ***
+
+# TODO: add support for name in Russian
+# TODO: location after creation should be "/country/${name.toLowerCase()}"
+Create Country
+	[Arguments]	${name}
+	Go To	${SITE_URL}/country/add
+	Input Text	id=name	${name}
+	Submit Form	id=add-country-form

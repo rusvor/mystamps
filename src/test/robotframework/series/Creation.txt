@@ -1,0 +1,38 @@
+*** Settings ***
+Library	Selenium2Library
+Resource	../AuthenticationSteps.txt
+Resource	../CategorySteps.txt
+Resource	../CountrySteps.txt
+Resource	../SeriesSteps.txt
+Resource	../TestSuiteSteps.txt
+Suite Set Up	Before Test Suite
+Suite Tear Down	After Test Suite
+Default Tags	Series
+
+*** Test Cases ***
+
+# Issue: #514
+# Requirements: category "Prehistoric animals" should exist
+Category should be populated on special series creation page
+	[Setup]	Log In As User
+	Go To	${SITE_URL}/series/add/category/prehistoric-animals
+	Category Field Should Be	Prehistoric animals
+	[Teardown]	Log Out
+
+# Issue: #514
+# Requirements: country "Italy" should exist
+Country should be populated on special series creation page
+	[Setup]	Log In As User
+	Go To	${SITE_URL}/series/add/country/italy
+	Country Field Should Be	Italy
+	[Teardown]	Log Out
+
+# Issue: #514
+# Requirements: category "Prehistoric animals" should exist
+# Requirements: country "Italy" should exist
+Category and country should be populated on special series creation page
+	[Setup]	Log In As User
+	Go To	${SITE_URL}/series/add?category=prehistoric-animals&country=italy
+	Category Field Should Be	Prehistoric animals
+	Country Field Should Be	Italy
+	[Teardown]	Log Out

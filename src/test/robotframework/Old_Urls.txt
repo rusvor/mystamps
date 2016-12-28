@@ -1,0 +1,32 @@
+*** Settings ***
+# TODO: how to set only runOnFailure parameter?
+Library	Selenium2Library
+Resource	TestSuiteSteps.txt
+Suite Set Up	Before Test Suite
+Suite Tear Down	After Test Suite
+
+*** Test Cases ***
+# Issue: #514
+Account activation link should redirect and populate key
+	[Tags]	Series
+	Go To	${SITE_URL}/account/activate/key/0123456789
+	Location Should Be	${SITE_URL}/account/activate?key=0123456789
+	Textfield Value Should Be	id=activationKey	0123456789
+
+# Issue: #514
+# Requirements: category "Prehistoric animals" should exist
+Add series with category link should show error for anonymous
+	Go To	${SITE_URL}/series/add/category/prehistoric-animals
+	# TODO: why location isn't "/series/add?category=prehistoric-animals" ?
+	Location Should Be	${SITE_URL}/series/add
+	Element Text Should Be	id=error-code	401
+	Element Text Should Be	id=error-msg	Authorization required${\n}to access page
+
+# Issue: #514
+# Requirements: country "Italy" should exist
+Add series with country link should show error for anonymous
+	Go To	${SITE_URL}/series/add/country/italy
+	# TODO: why location isn't "/series/add?country=italy" ?
+	Location Should Be	${SITE_URL}/series/add
+	Element Text Should Be	id=error-code	401
+	Element Text Should Be	id=error-msg	Authorization required${\n}to access page

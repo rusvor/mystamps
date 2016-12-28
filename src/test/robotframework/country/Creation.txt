@@ -1,0 +1,20 @@
+*** Settings ***
+Library	Selenium2Library
+Resource	../AuthenticationSteps.txt
+Resource	../CountrySteps.txt
+Resource	../SeriesSteps.txt
+Resource	../TestSuiteSteps.txt
+Suite Set Up	Before Test Suite
+Suite Tear Down	After Test Suite
+
+*** Test Cases ***
+
+# Issue: #514
+# Requirements: country "New Zealand" should not exist
+After adding a country it should be available on series creation page
+	[Setup]	Log In As User
+	Create Country	New Zealand
+	Click Link	id=create-series-link
+	Location Should Be	${SITE_URL}/series/add?country=new-zealand
+	Country Field Should Be	New Zealand
+	[Teardown]	Log Out

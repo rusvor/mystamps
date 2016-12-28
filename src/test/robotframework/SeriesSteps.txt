@@ -1,0 +1,21 @@
+*** Settings ***
+Library	String
+
+*** Variables ***
+${countryNameXpath}	//select[@id="country"]/option[@selected="selected"]
+
+*** Keywords ***
+Category Field Should Be
+	[Arguments]	${value}
+	List Selection Should Be	id=category	${value}
+
+Country Field Should Be
+	[Arguments]	${value}
+	# selectize.js makes field invisible
+	Wait Until Element Is Not Visible	xpath=${countryNameXpath}
+	# We can't use "List Selection Should Be" and even "Element Text Should Be"
+	# because they don't work with invisible elements
+	${actualValue} =	Get Element Attribute	xpath=${countryNameXpath}@value
+	${expectedValue} =	Convert To Lowercase	${value}
+	${expectedValue} =	Replace String	 ${expectedValue}	${SPACE}	-
+	Should Be Equal	${expectedValue}	${actualValue}

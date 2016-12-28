@@ -1,0 +1,17 @@
+*** Keywords ***
+
+# TODO: do nothing when already authenticated as "coder"
+Log In As
+	[Arguments]	${login}	${password}
+	Go To	${SITE_URL}/account/auth
+	Input Text	id=login	${login}
+	Input Password	id=password	${password}
+	Submit Form	id=authAccountForm
+
+# Requirements: user "coder" with password "test" should exist
+Log In As User
+	Log In As	coder	test
+
+# TODO: don't logout if anonymous
+Log Out
+	Submit Form	id=LogoutForm
