@@ -13,7 +13,7 @@ before_script:
       mysql -u travis -e 'CREATE DATABASE mystamps CHARACTER SET utf8;';
       mkdir -p /tmp/uploads /tmp/preview;
       if [ "$TRAVIS_BRANCH" = 'prod' ]; then
-        pip install --user ansible==2.1.1.0;
+        pip install --user ansible;
       fi;
       npm install -g bootlint;
       pip install --user html5validator;

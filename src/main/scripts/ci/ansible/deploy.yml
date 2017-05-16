@@ -12,7 +12,7 @@
 
   - name: Getting info about WAR file
     stat:
-      path: 'target/mystamps.war'
+      path: "{{ lookup('pipe', 'pwd') }}/target/mystamps.war"
       get_checksum: no
       get_md5: no
     register: war_file
