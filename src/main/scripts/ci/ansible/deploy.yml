@@ -10,12 +10,35 @@
       apikey: "{{ lookup('env', 'UPTIMEROBOT_APIKEY') }}"
   tasks:
 
+  - debug:
+      msg: "$PWD = {{ lookup('env', 'PWD') | quote}}"
+    become: no
+    delegate_to: 127.0.0.1
+
+  - debug:
+      msg: "pwd = {{ lookup('pipe', 'pwd') | quote}}"
+    become: no
+    delegate_to: 127.0.0.1
+
+  - shell: pwd
+    register: cwd
+    become: no
+    delegate_to: 127.0.0.1
+
+  - debug: var=cwd
+    become: no
+    delegate_to: 127.0.0.1
+
   - name: Getting info about WAR file
     stat:
-      path: "{{ lookup('pipe', 'pwd') }}/target/mystamps.war"
+      path: "{{ lookup('pipe', 'pwd') | quote }}/target/mystamps.war"
       get_checksum: no
       get_md5: no
     register: war_file
+    become: no
+    delegate_to: 127.0.0.1
+
+  - debug: var=war_file
     become: no
     delegate_to: 127.0.0.1
 
